@@ -1,74 +1,99 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  ScrollView,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-
-export default function HomeScreen() {
+export default function Home() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
+    <ScrollView style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Find the best coffee for you</Text>
+        <TextInput
+          placeholder="Find Your Coffee..."
+          style={styles.searchInput}
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      </View>
+
+      {/* Categories */}
+      <View style={styles.categories}>
+        {["All", "Cappuccino", "Espresso", "Americano", "Macchiato"].map(
+          (category, index) => (
+            <TouchableOpacity key={index} style={styles.categoryButton}>
+              <Text style={styles.categoryText}>{category}</Text>
+            </TouchableOpacity>
+          )
+        )}
+      </View>
+
+      {/* Coffee Cards */}
+      <View style={styles.cardContainer}>
+        {[1, 2, 3, 4].map((_, index) => (
+          <View key={index} style={styles.card}>
+            <Image
+              source={{ uri: "https://via.placeholder.com/100" }}
+              style={styles.cardImage}
+            />
+            <Text style={styles.cardTitle}>Cappuccino</Text>
+            <Text style={styles.cardDescription}>With Steamed Milk</Text>
+            <Text style={styles.cardPrice}>$4.20</Text>
+            <TouchableOpacity style={styles.addButton}>
+              <Text style={styles.addButtonText}>+</Text>
+            </TouchableOpacity>
+          </View>
+        ))}
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: { flex: 1, backgroundColor: "#1e1e1e" },
+  header: { padding: 20 },
+  headerText: { color: "#fff", fontSize: 24, fontWeight: "bold" },
+  searchInput: {
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: "#333",
+    borderRadius: 10,
+    color: "#fff",
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  categories: { flexDirection: "row", marginHorizontal: 20, marginTop: 20 },
+  categoryButton: {
+    marginRight: 10,
+    padding: 10,
+    backgroundColor: "#333",
+    borderRadius: 20,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  categoryText: { color: "#fff" },
+  cardContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    marginTop: 20,
   },
+  card: {
+    width: 150,
+    backgroundColor: "#333",
+    borderRadius: 10,
+    padding: 10,
+    margin: 10,
+  },
+  cardImage: { width: "100%", height: 100, borderRadius: 10 },
+  cardTitle: { color: "#fff", fontSize: 16, marginVertical: 5 },
+  cardDescription: { color: "#bbb", fontSize: 12 },
+  cardPrice: { color: "#fff", fontSize: 14, fontWeight: "bold", marginTop: 5 },
+  addButton: {
+    marginTop: 10,
+    backgroundColor: "#ff6600",
+    borderRadius: 50,
+    padding: 5,
+    alignItems: "center",
+  },
+  addButtonText: { color: "#fff", fontSize: 16 },
 });
